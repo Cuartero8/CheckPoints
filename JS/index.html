@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <!-- Utilizar la API de Rick y Morty para obtener datos de los personajes.
+Mostrar las cartas de los personajes en la página utilizando HTML y CSS.
+Implementar un filtro de búsqueda que permita al usuario buscar personajes por su nombre.
+Utilizar JavaScript para realizar la lógica de búsqueda y renderiza -->
+
+    <input type="text" id="busqueda">
+
+    <div id="card-container"></div>
+
+    <script>
+
+        async function loadAPI(characterName) {
+            try {const url = `https://rickandmortyapi.com/api/character/?name=${characterName}`;
+            const response = await fetch(url);
+            const data = await response.json();
+            const cardContainer = document.getElementById("card-container");
+            console.log(data);
+            data.results.forEach((character) => {
+                cardContainer.appendChild(cardMaker(character));
+            });
+            }
+            catch(err) {
+                console.error("Error:", err);
+            }
+        }
+
+        function cardMaker(characterData) {
+            const card = document.createElement("div");
+            const titulo = document.createElement("h3");
+            titulo.innerText = characterData.name;
+            card.appendChild(titulo);
+            const status = document.createElement("p");
+            card.appendChild(status);
+            const especie = document.createElement("p");
+            card.appendChild(especie);
+            const img = document.createElement("img");
+            card.appendChild(img);
+            return card;
+        }
+
+        const input = document.getElementById("busqueda");
+
+        input.addEventListener("input", (evt) => {
+            const nombre = evt.target.value;
+            loadAPI(nombre);
+        })
+
+
+
+    </script>
+    
+</body>
+
+</html>

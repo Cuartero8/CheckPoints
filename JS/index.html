@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JavaScript</title>
-    <link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -23,43 +22,45 @@ Utilizar JavaScript para realizar la lógica de búsqueda y renderiza -->
     <script>
 
         async function loadAPI(characterName) {
-            try {const url = `https://rickandmortyapi.com/api/character/?name=${characterName}`;
-            const response = await fetch(url);
-            const data = await response.json();
-            const cardContainer = document.getElementById("card-container");
-            console.log(data);
-            data.results.forEach((character) => {
-                cardContainer.appendChild(cardMaker(character));
-            });
+            try {
+                const url = `https://rickandmortyapi.com/api/character/?name=${characterName}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                console.log(data);
+                const cardContainer = document.getElementById("card-container");
+                data.results.forEach(async (character) => {
+                    cardContainer.appendChild(cardMaker(character));
+                });
             }
             catch(err) {
                 console.error("Error:", err);
             }
         }
-
+    
         function cardMaker(characterData) {
             const card = document.createElement("div");
             const titulo = document.createElement("h3");
             titulo.innerText = characterData.name;
             card.appendChild(titulo);
             const status = document.createElement("p");
+            status.innerText = characterData.status;
             card.appendChild(status);
             const especie = document.createElement("p");
+            especie.innerText = characterData.species;
             card.appendChild(especie);
             const img = document.createElement("img");
+            img.src = characterData.image;
             card.appendChild(img);
             return card;
         }
-
+    
         const input = document.getElementById("busqueda");
-
+        
         input.addEventListener("input", (evt) => {
-            const nombre = evt.target.value;
+            let nombre = evt.target.value;
             loadAPI(nombre);
         })
-
-
-
+        
     </script>
     
 </body>

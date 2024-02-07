@@ -28,7 +28,8 @@ Utilizar JavaScript para realizar la lógica de búsqueda y renderiza -->
                 const data = await response.json();
                 console.log(data);
                 const cardContainer = document.getElementById("card-container");
-                data.results.forEach(async (character) => {
+                cardRemover(cardContainer);     //Removemos las cartas actuales
+                data.results.forEach(async (character) => {     //Creamos las nuevas
                     cardContainer.appendChild(cardMaker(character));
                 });
             }
@@ -53,6 +54,16 @@ Utilizar JavaScript para realizar la lógica de búsqueda y renderiza -->
             card.appendChild(img);
             return card;
         }
+
+        function cardRemover(container) {
+            if (container) {
+                while (container.hasChildNodes()) {
+                    container.removeChild(container.lastChild);
+                }
+            }
+        }
+
+
     
         const input = document.getElementById("busqueda");
         
